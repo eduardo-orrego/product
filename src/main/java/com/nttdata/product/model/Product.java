@@ -15,9 +15,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Document(collection = "product")
 public class Product {
+
     private String id;
     private String type;
     private String currency;
+    private BigDecimal minimumOpeningAmount;
+    private BigDecimal minimumAmountPersonalVIP;
     private BigDecimal interestRate;
     private BigDecimal maintenanceCommission;
     private Integer monthlyLimitMovement;
@@ -26,4 +29,5 @@ public class Product {
     private Integer specificDayMonthMovement;
     private LocalDateTime dateCreated;
     private LocalDateTime lastUpdated;
+
 }

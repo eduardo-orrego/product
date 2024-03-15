@@ -1,16 +1,20 @@
 package com.nttdata.product.repository;
 
 import com.nttdata.product.model.Product;
-import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
-import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Repository
-public interface ProductRepository extends ReactiveMongoRepository<Product, String> {
+public interface ProductRepository {
 
-    Mono<Boolean> existsByType(String type);
+    Mono<Product> findProduct(String productId);
 
-    Flux<Product> findByType(String type);
+    Flux<Product> findProducts(String type);
 
+    Mono<Boolean> findExistsProduct(String productId);
+
+    Mono<Boolean> findExistsProducts(String type);
+
+    Mono<Product> saveProduct(Product product);
+
+    Mono<Void> deleteProduct(String productId);
 }

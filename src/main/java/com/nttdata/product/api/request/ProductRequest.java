@@ -23,9 +23,14 @@ public class ProductRequest {
     @NotNull
     private BigDecimal interestRate;
 
+    @NotNull
+    private BigDecimal minimumOpeningAmount;
+
+    private BigDecimal minimumAmountPersonalVIP;
     private BigDecimal maintenanceCommission;
     private Integer monthlyLimitMovement;
     private Integer limitFreeMovements;
     private BigDecimal commissionMovement;
     private Integer specificDayMonthMovement;
+
 }
