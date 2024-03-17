@@ -2,13 +2,10 @@ package com.nttdata.product.business;
 
 import com.nttdata.product.api.request.ProductRequest;
 import com.nttdata.product.model.Product;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface ProductService {
-    Mono<Product> getProductById(String productId);
-
-    Flux<Product> getProducts(String type);
+    Mono<Product> getProduct(String type);
 
     Mono<Product> saveProduct(ProductRequest productRequest);
 

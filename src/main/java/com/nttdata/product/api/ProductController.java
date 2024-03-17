@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -88,33 +87,6 @@ public class ProductController {
     }
 
     /**
-     * GET /{productId} : Get information about a specific product
-     *
-     * @param productId (required)
-     * @return OK (status code 200)
-     */
-    @Operation(
-        operationId = "productsProductIdGet",
-        summary = "Get information about a specific product",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ProductRequest.class))
-            })
-        }
-    )
-
-    @GetMapping(
-        value = "/{productId}",
-        produces = {"application/json"}
-    )
-    public Mono<Product> productsProductIdGet(
-        @Parameter(name = "productId", description = "", required = true, in = ParameterIn.PATH)
-        @PathVariable("productId") String productId
-    ) {
-        return productService.getProductById(productId);
-    }
-
-    /**
      * GET : Get a list of products
      *
      * @param productType (required)
@@ -133,13 +105,13 @@ public class ProductController {
         value = "",
         produces = {"application/json"}
     )
-    public Flux<Product> productsGet(
+    public Mono<Product> productsGet(
         @NotNull @Parameter(name = "productType", description = "", required = true, in = ParameterIn.QUERY)
         @Validated @RequestParam(value = "productType") String productType
     ) {
-        return productService.getProducts(productType);
+        return productService.getProduct(productType);
     }
-    
+
     /**
      * DELETE : delete a product
      *

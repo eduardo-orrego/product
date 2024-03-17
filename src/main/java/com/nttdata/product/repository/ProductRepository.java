@@ -6,13 +6,13 @@ import reactor.core.publisher.Mono;
 
 public interface ProductRepository {
 
-    Mono<Product> findProduct(String productId);
+    Mono<Product> findProductById(String productId);
 
-    Flux<Product> findProducts(String type);
+    Mono<Product> findProduct(String type);
 
-    Mono<Boolean> findExistsProduct(String productId);
+    Mono<Boolean> findExistsProductById(String productId);
 
-    Mono<Boolean> findExistsProducts(String type);
+    Mono<Boolean> findExistsProduct(String type);
 
     Mono<Product> saveProduct(Product product);
 
