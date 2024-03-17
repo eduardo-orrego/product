@@ -87,14 +87,14 @@ public class ProductController {
     }
 
     /**
-     * GET : Get a list of products
+     * GET : Get a product
      *
      * @param productType (required)
      * @return OK (status code 200)
      */
     @Operation(
         operationId = "productsGet",
-        summary = "Get a list of products",
+        summary = "Get a product",
         responses = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Product.class)))
