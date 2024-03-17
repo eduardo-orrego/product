@@ -1,7 +1,6 @@
 package com.nttdata.product.repository;
 
 import com.nttdata.product.model.Product;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface ProductRepository {
