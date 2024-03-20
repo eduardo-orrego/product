@@ -16,46 +16,52 @@ import reactor.core.publisher.Mono;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
+  @Autowired
+  private ProductRepository productRepository;
 
-    @Override
-    public Mono<Product> getProduct(String productType) {
-        return productRepository.findProduct(productType)
-            .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Products not found - " +
-                "type: ".concat(productType))));
-    }
+  @Override
+  public Mono<Product> getProduct(String productType) {
+    return productRepository.findProduct(productType)
+      .switchIfEmpty(
+        Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Products not found - "
+          + "type: ".concat(productType))));
+  }
 
-    @Override
-    public Mono<Product> saveProduct(ProductRequest productRequest) {
-        return productRepository.findExistsProduct(productRequest.getType().name())
-            .flatMap(aBoolean -> {
-                if (Boolean.FALSE.equals(aBoolean)) {
-                    return productRepository.saveProduct(ProductBuilder.toProductEntity(productRequest));
-                }
-                return Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "The product already exists - " +
-                    "type: ".concat(productRequest.getType().name())));
-            });
-    }
+  @Override
+  public Mono<Product> saveProduct(ProductRequest productRequest) {
+    return productRepository.findExistsProduct(productRequest.getType().name())
+      .flatMap(exists -> {
+        if (Boolean.FALSE.equals(exists)) {
+          return productRepository.saveProduct(
+            ProductBuilder.toProductEntity(productRequest));
+        }
+        return Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND,
+          "The product already exists - "
+            + "type: ".concat(productRequest.getType().name())));
+      });
+  }
 
-    @Override
-    public Mono<Product> updateProduct(ProductRequest productRequest, String productId) {
-        return productRepository.findProductById(productId)
-            .flatMap(product ->
-                productRepository.saveProduct(ProductBuilder.toProductEntity(productRequest, product)))
-            .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found - " +
-                "productId: ".concat(productId))));
-    }
+  @Override
+  public Mono<Product> updateProduct(ProductRequest productRequest, String productId) {
+    return productRepository.findProductById(productId)
+      .flatMap(product ->
+        productRepository.saveProduct(
+          ProductBuilder.toProductEntity(productRequest, product)))
+      .switchIfEmpty(
+        Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found - "
+          + "productId: ".concat(productId))));
+  }
 
-    @Override
-    public Mono<Void> deleteProduct(String productId) {
-        return productRepository.findExistsProductById(productId)
-            .flatMap(aBoolean -> {
-                if (Boolean.TRUE.equals(aBoolean)) {
-                    return productRepository.deleteProduct(productId);
-                }
-                return Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found - " +
-                    "productId: ".concat(productId)));
-            });
-    }
+  @Override
+  public Mono<Void> deleteProduct(String productId) {
+    return productRepository.findExistsProductById(productId)
+      .flatMap(aBoolean -> {
+        if (Boolean.TRUE.equals(aBoolean)) {
+          return productRepository.deleteProduct(productId);
+        }
+        return Mono.error(
+          new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found - "
+            + "productId: ".concat(productId)));
+      });
+  }
 }

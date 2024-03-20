@@ -97,7 +97,8 @@ public class ProductController {
         summary = "Get a product",
         responses = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
-                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Product.class)))
+                @Content(mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(implementation = Product.class)))
             })
         }
     )
