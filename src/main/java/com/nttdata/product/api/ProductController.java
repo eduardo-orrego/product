@@ -24,115 +24,125 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+/**
+ * Class: ProductController. <br/>
+ * <b>Bootcamp NTTDATA</b><br/>
+ *
+ * @author NTTDATA
+ * @version 1.0
+ *   <u>Developed by</u>:
+ *   <ul>
+ *   <li>Developer Carlos</li>
+ *   </ul>
+ * @since 1.0
+ */
 @RestController
 @RequestMapping(value = "/api/products")
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+  @Autowired
+  private ProductService productService;
 
-    /**
-     * POST : Create a new product
-     *
-     * @param product (required)
-     * @return Created (status code 201)
-     */
-    @Operation(
-        operationId = "productsPost",
-        summary = "Create a new product",
-        responses = {
-            @ApiResponse(responseCode = "201", description = "Created", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class))
-            })
-        }
-    )
-    @PostMapping(
-        value = "",
-        produces = {"application/json"},
-        consumes = {"application/json"}
-    )
-    public Mono<Product> productsPost(
-        @Validated @RequestBody ProductRequest product
-    ) {
-        return productService.saveProduct(product);
+  /**
+   * POST : Create a new product.
+   *
+   * @param product (required)
+   * @return Created (status code 201)
+   */
+  @Operation(
+    operationId = "productsPost",
+    summary = "Create a new product",
+    responses = {
+      @ApiResponse(responseCode = "201", description = "Created", content = {
+        @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class))
+      })
     }
+  )
+  @PostMapping(
+    value = "",
+    produces = {"application/json"},
+    consumes = {"application/json"}
+  )
+  public Mono<Product> productsPost(
+    @Validated @RequestBody ProductRequest product
+  ) {
+    return productService.saveProduct(product);
+  }
 
-    /**
-     * PUT : Update a product
-     *
-     * @param productId (required)
-     * @param product   (required)
-     * @return Created (status code 200)
-     */
-    @Operation(
-        operationId = "productsPut",
-        summary = "Update a product",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Updated", content = {
-                @Content(mediaType = "application/json", schema = @Schema())
-            })
-        }
-    )
-    @PutMapping(
-        value = "/{productId}",
-        produces = {"application/json"},
-        consumes = {"application/json"}
-    )
-    public Mono<Product> productsPut(
-        @Parameter(name = "productId", description = "", required = true, in = ParameterIn.PATH)
-        @PathVariable("productId") String productId,
-        @Validated @RequestBody ProductRequest product
-    ) {
-        return productService.updateProduct(product, productId);
+  /**
+   * PUT : Update a product.
+   *
+   * @param productId (required)
+   * @param product   (required)
+   * @return Created (status code 200)
+   */
+  @Operation(
+    operationId = "productsPut",
+    summary = "Update a product",
+    responses = {
+      @ApiResponse(responseCode = "200", description = "Updated", content = {
+        @Content(mediaType = "application/json", schema = @Schema())
+      })
     }
+  )
+  @PutMapping(
+    value = "/{productId}",
+    produces = {"application/json"},
+    consumes = {"application/json"}
+  )
+  public Mono<Product> productsPut(
+    @Parameter(name = "productId", description = "", required = true, in = ParameterIn.PATH)
+    @PathVariable("productId") String productId, @Validated @RequestBody ProductRequest product
+  ) {
+    return productService.updateProduct(product, productId);
+  }
 
-    /**
-     * GET : Get a product
-     *
-     * @param productType (required)
-     * @return OK (status code 200)
-     */
-    @Operation(
-        operationId = "productsGet",
-        summary = "Get a product",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
-                @Content(mediaType = "application/json",
-                    array = @ArraySchema(schema = @Schema(implementation = Product.class)))
-            })
-        }
-    )
-    @GetMapping(
-        value = "",
-        produces = {"application/json"}
-    )
-    public Mono<Product> productsGet(
-        @NotNull @Parameter(name = "productType", description = "", required = true, in = ParameterIn.QUERY)
-        @Validated @RequestParam(value = "productType") String productType
-    ) {
-        return productService.getProduct(productType);
+  /**
+   * GET : Get a product.
+   *
+   * @param productType (required)
+   * @return OK (status code 200)
+   */
+  @Operation(operationId = "productsGet", summary = "Get a product",
+    responses = {
+      @ApiResponse(responseCode = "200", description = "OK", content = {
+        @Content(mediaType = "application/json",
+          array = @ArraySchema(schema = @Schema(implementation = Product.class)))
+      })
     }
+  )
+  @GetMapping(
+    value = "",
+    produces = {"application/json"}
+  )
+  public Mono<Product> productsGet(
+    @NotNull @Parameter(name = "productType", description = "", required = true,
+      in = ParameterIn.QUERY)
+    @Validated @RequestParam(value = "productType") String productType
+  ) {
+    return productService.getProduct(productType);
+  }
 
-    /**
-     * DELETE : delete a product
-     *
-     * @param productId (required)
-     * @return Created (status code 200)
-     */
-    @Operation(
-        operationId = "productDelete",
-        summary = "Delete a product",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Deleted")
-        }
-    )
-    @DeleteMapping(value = "/{productId}")
-    public Mono<Void> productDelete(
-        @Parameter(name = "productId", description = "", required = true, in = ParameterIn.PATH)
-        @PathVariable("productId") String productId
-    ) {
-        return productService.deleteProduct(productId);
+  /**
+   * DELETE : delete a product.
+   *
+   * @param productId (required)
+   * @return Created (status code 200)
+   */
+  @Operation(
+    operationId = "productDelete",
+    summary = "Delete a product",
+    responses = {
+      @ApiResponse(responseCode = "200", description = "Deleted")
     }
+  )
+  @DeleteMapping(value = "/{productId}")
+  public Mono<Void> productDelete(
+    @Parameter(name = "productId", description = "", required = true, in = ParameterIn.PATH)
+    @PathVariable("productId") String productId
+  ) {
+    return productService.deleteProduct(productId);
+  }
 
 }
 

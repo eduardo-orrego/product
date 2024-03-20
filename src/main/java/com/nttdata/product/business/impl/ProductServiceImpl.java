@@ -12,6 +12,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
+/**
+ * Class: ProductServiceImpl. <br/>
+ * <b>Bootcamp NTTDATA</b><br/>
+ *
+ * @author NTTDATA
+ * @version 1.0
+ *   <u>Developed by</u>:
+ *   <ul>
+ *   <li>Developer Carlos</li>
+ *   </ul>
+ * @since 1.0
+ */
 @Slf4j
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -30,15 +42,10 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public Mono<Product> saveProduct(ProductRequest productRequest) {
     return productRepository.findExistsProduct(productRequest.getType().name())
-      .flatMap(exists -> {
-        if (Boolean.FALSE.equals(exists)) {
-          return productRepository.saveProduct(
-            ProductBuilder.toProductEntity(productRequest));
-        }
-        return Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND,
-          "The product already exists - "
-            + "type: ".concat(productRequest.getType().name())));
-      });
+      .flatMap(exists -> Boolean.TRUE.equals(exists)
+        ? productRepository.saveProduct(ProductBuilder.toProductEntity(productRequest))
+        : Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND,
+          "The product already exists - type: ".concat(productRequest.getType().name()))));
   }
 
   @Override
@@ -55,13 +62,10 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public Mono<Void> deleteProduct(String productId) {
     return productRepository.findExistsProductById(productId)
-      .flatMap(aBoolean -> {
-        if (Boolean.TRUE.equals(aBoolean)) {
-          return productRepository.deleteProduct(productId);
-        }
-        return Mono.error(
-          new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found - "
-            + "productId: ".concat(productId)));
-      });
+      .flatMap(exists -> Boolean.TRUE.equals(exists)
+        ? productRepository.deleteProduct(productId)
+        : Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found - "
+          + "productId: ".concat(productId)))
+      );
   }
 }
