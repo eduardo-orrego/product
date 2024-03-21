@@ -124,7 +124,6 @@
                     <consoleOutput>true</consoleOutput>
                     <failsOnError>true</failsOnError>
                     <linkXRef>false</linkXRef>
-                    <excludes>com/nttdata/*/model/thirdparty/**/*</excludes>
                 </configuration>
                 <executions>
                     <execution>
@@ -144,9 +143,6 @@
                 <configuration>
                     <destFile>${project.basedir}/target/jacoco.exec</destFile>
                     <append>true</append>
-                    <excludes>
-                        <exclude>com/nttdata/*/model/thirdparty/**/*</exclude>
-                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
@@ -183,7 +179,7 @@
                 </executions>
                 <configuration>
                     <foo>bar</foo>
-                    <excludeFilterFile>spotbugs-exclude.xml</excludeFilterFile>
+                    <excludeFilterFile>spotbugs-filter.xml</excludeFilterFile>
                 </configuration>
             </plugin>
         </plugins>
@@ -216,9 +212,6 @@
                 <configuration>
                     <destFile>${project.basedir}/target/jacoco.exec</destFile>
                     <append>true</append>
-                    <excludes>
-                        <exclude>com/nttdata/*/model/thirdparty/**/*</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
             <plugin>
@@ -235,9 +228,6 @@
                 <version>3.19.0</version>
                 <configuration>
                     <skipEmptyReport>false</skipEmptyReport>
-                    <excludes>
-                        <exclude>com/nttdata/*/model/thirdparty/**/*</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
         </plugins>

@@ -13,9 +13,13 @@ public class ProductBuilderTest {
   @Test
   void initialBuilder() {
 
+    Product productRequest = ProductBuilder.toProductEntity(ModelMock.getProductRequestDefault());
     Product product = ProductBuilder.toProductEntity(ModelMock.getProductRequest(),
       ModelMock.getProduct());
+
     Assertions.assertNotNull(product);
+    Assertions.assertNotNull(productRequest);
+
     System.out.println(Product.builder().toString());
     System.out.println(ProductRequest.builder().toString());
 
