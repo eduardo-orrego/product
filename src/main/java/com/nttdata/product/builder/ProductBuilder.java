@@ -19,7 +19,8 @@ import java.util.Objects;
  * @since 1.0
  */
 public class ProductBuilder {
-  ProductBuilder() {
+
+  private ProductBuilder() {
   }
 
   public static Product toProductEntity(ProductRequest productRequest) {
