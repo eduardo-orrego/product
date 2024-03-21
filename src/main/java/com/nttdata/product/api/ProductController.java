@@ -46,6 +46,33 @@ public class ProductController {
   private ProductService productService;
 
   /**
+   * GET : Get a product.
+   *
+   * @param productType (required)
+   * @return OK (status code 200)
+   */
+  @Operation(operationId = "productsGet", summary = "Get a product",
+    responses = {
+      @ApiResponse(responseCode = "200", description = "OK", content = {
+        @Content(mediaType = "application/json",
+          array = @ArraySchema(schema = @Schema(implementation = Product.class)))
+      })
+    }
+  )
+  @GetMapping(
+    value = "",
+    produces = {"application/json"}
+  )
+  @ResponseStatus(HttpStatus.OK)
+  public Mono<Product> productsGet(
+    @NotNull @Parameter(name = "productType", description = "", required = true,
+      in = ParameterIn.QUERY)
+    @Validated @RequestParam(value = "productType") String productType
+  ) {
+    return productService.getProduct(productType);
+  }
+
+  /**
    * POST : Create a new product.
    *
    * @param product (required)
@@ -99,33 +126,6 @@ public class ProductController {
     @PathVariable("productId") String productId, @Validated @RequestBody ProductRequest product
   ) {
     return productService.updateProduct(product, productId);
-  }
-
-  /**
-   * GET : Get a product.
-   *
-   * @param productType (required)
-   * @return OK (status code 200)
-   */
-  @Operation(operationId = "productsGet", summary = "Get a product",
-    responses = {
-      @ApiResponse(responseCode = "200", description = "OK", content = {
-        @Content(mediaType = "application/json",
-          array = @ArraySchema(schema = @Schema(implementation = Product.class)))
-      })
-    }
-  )
-  @GetMapping(
-    value = "",
-    produces = {"application/json"}
-  )
-  @ResponseStatus(HttpStatus.OK)
-  public Mono<Product> productsGet(
-    @NotNull @Parameter(name = "productType", description = "", required = true,
-      in = ParameterIn.QUERY)
-    @Validated @RequestParam(value = "productType") String productType
-  ) {
-    return productService.getProduct(productType);
   }
 
   /**

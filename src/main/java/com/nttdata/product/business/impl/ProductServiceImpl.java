@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
     return productRepository.findExistsProduct(productRequest.getType().name())
       .flatMap(exists -> Boolean.FALSE.equals(exists)
         ? productRepository.saveProduct(ProductBuilder.toProductEntity(productRequest))
-        : Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND,
+        : Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST,
           "The product already exists - type: ".concat(productRequest.getType().name()))));
   }
 

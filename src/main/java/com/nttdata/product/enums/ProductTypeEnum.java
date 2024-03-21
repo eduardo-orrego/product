@@ -20,5 +20,5 @@ public enum ProductTypeEnum {
   CHECKING,
   TERM_DEPOSIT,
   LOAN,
-  CREDIT_CARD
+  CREDIT
 }
